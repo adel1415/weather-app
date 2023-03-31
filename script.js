@@ -49,15 +49,16 @@ setInterval(() => {
       month: "long",
     }).format(Date.now());
 }, 1000);
-getWeatherData(21.287791, 40.397808, "الطائف");
-getWeatherData(21.39994, 39.818015, "مكة المكرمة");
-getWeatherData(21.530628, 39.184906, "جدة");
 
-let num = 0;
+getWeatherData(21.2703, 40.4158, "الطائف");
+getWeatherData(21.4267, 39.8261, "مكة المكرمة");
+getWeatherData(21.5169, 39.2192, "جدة");
+
+
 setInterval(() => {
-  getWeatherData(21.287791, 40.397808, "الطائف");
-  getWeatherData(21.39994, 39.818015, "مكة المكرمة");
-  getWeatherData(21.530628, 39.184906, "جدة");
+  getWeatherData(21.2703, 40.4158, "الطائف");
+  getWeatherData(21.4267, 39.8261, "مكة المكرمة");
+  getWeatherData(21.5169, 39.2192, "جدة");
 }, 3600000);
 
 function getWeatherData(latitude, longitude, city_name) {
@@ -67,32 +68,32 @@ function getWeatherData(latitude, longitude, city_name) {
   )
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
-      // showWeatherData(data , city_name);
       if (arr.length >= 3) {
         arr = [];
       }
       arr.push(data);
-      console.log(arr.length);
     });
 }
+
 n = 0;
 setInterval(() => {
   if (n == 0) {
     city_name = 'الطائف'
     showWeatherData(arr[0], city_name);
-    console.log(arr[0]);
+    // console.log(arr[0]);
     n++;
   } else if (n == 1) {
     city_name = 'مكة المكرمة'
     showWeatherData(arr[1], city_name);
+    // console.log(arr[1]);
     n++;
   } else {
     city_name = 'جدة'
     showWeatherData(arr[2], city_name);
+    // console.log(arr[2]);
     n = 0;
   }
-}, 5000);
+}, 10000);
 
 function showWeatherData(data, city_name) {
   let { humidity, pressure, sunrise, sunset, wind_speed } = data.current;
@@ -102,15 +103,15 @@ function showWeatherData(data, city_name) {
 
   currentWeatherItemsEl.innerHTML = `<div class="weather-item">
         <div>الرطوبة</div>
-        <div>${humidity}</div>
+        <div>${humidity} ٪</div>
   </div>
   <div class="weather-item">
         <div>الضغط الجوي</div>
-        <div>${pressure}</div>
+        <div>${pressure}hPa</div>
   </div>
   <div class="weather-item">
         <div>سرعة الرياح</div>
-        <div>${wind_speed}</div>
+        <div>${wind_speed}km/h</div>
   </div>
   <div class="weather-item">
         <div>شروق الشمس</div>

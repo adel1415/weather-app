@@ -46,13 +46,22 @@ body {
 
 .place-container {
   text-align: end;
+  background: rgba(24, 24, 27, 0.6);
+  padding: 20px;
+  border-radius: 10px;
+  margin: 10px 0;
+  border: 1px solid #eee;
+  height: 250px;
 }
 .place-container .name_company {
-  padding-top: 30px;
   margin-left: 36px;
   font-size: 20px;
   /* font-weight: 100; */
   font-weight: bold;
+}
+.place-container .name_project{
+    text-align: center;
+    font-size: 25px;
 }
 .place-container .time-zone {
   font-size: 30px;
