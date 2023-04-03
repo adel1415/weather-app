@@ -58,10 +58,6 @@ setTimeout(() => {
   document.location.reload();
 }, 3600000);
 
-// setInterval(() => {
-//   location.reload();
-// }, 30000);
-
 function getWeatherData(latitude, longitude, city_name) {
   arr = [];
   arrCityName = []
