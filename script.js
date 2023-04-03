@@ -90,12 +90,17 @@ setInterval(() => {
 }, 10000);
 
 function showWeatherData(data, city_name) {
-  let { humidity, pressure, sunrise, sunset, wind_speed } = data.current;
+  let {temp, humidity, pressure, sunrise, sunset, wind_speed } = data.current;
 
   timezone.innerHTML = city_name;
   countryEl.innerHTML = data.lat + "N " + data.lon + "E";
 
-  currentWeatherItemsEl.innerHTML = `<div class="weather-item">
+  currentWeatherItemsEl.innerHTML = `
+  <div class="weather-item">
+        <div>درجة الحرارة</div>
+        <div>${temp}&#176;C</div>
+  </div>
+  <div class="weather-item">
         <div>الرطوبة</div>
         <div>${humidity} ٪</div>
   </div>
