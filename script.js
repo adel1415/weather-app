@@ -54,15 +54,17 @@ getWeatherData(21.2703, 40.4158, "الطائف");
 getWeatherData(21.4267, 39.8261, "مكة المكرمة");
 getWeatherData(21.5169, 39.2192, "جدة");
 
-
-setInterval(() => {
-  getWeatherData(21.2703, 40.4158, "الطائف");
-  getWeatherData(21.4267, 39.8261, "مكة المكرمة");
-  getWeatherData(21.5169, 39.2192, "جدة");
+setTimeout(() => {
+  document.location.reload();
 }, 3600000);
+
+// setInterval(() => {
+//   location.reload();
+// }, 30000);
 
 function getWeatherData(latitude, longitude, city_name) {
   arr = [];
+  arrCityName = []
   fetch(
     `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&units=metric&appid=${API_KEY}`
   )
@@ -70,27 +72,23 @@ function getWeatherData(latitude, longitude, city_name) {
     .then((data) => {
       if (arr.length >= 3) {
         arr = [];
+        arrCityName = []
       }
       arr.push(data);
+      arrCityName.push(city_name);
     });
 }
 
 n = 0;
 setInterval(() => {
   if (n == 0) {
-    city_name = 'الطائف'
-    showWeatherData(arr[0], city_name);
-    // console.log(arr[0]);
+    showWeatherData(arr[0], arrCityName[0]);
     n++;
   } else if (n == 1) {
-    city_name = 'مكة المكرمة'
-    showWeatherData(arr[1], city_name);
-    // console.log(arr[1]);
+    showWeatherData(arr[1], arrCityName[1]);
     n++;
   } else {
-    city_name = 'جدة'
-    showWeatherData(arr[2], city_name);
-    // console.log(arr[2]);
+    showWeatherData(arr[2], arrCityName[2]);
     n = 0;
   }
 }, 10000);
