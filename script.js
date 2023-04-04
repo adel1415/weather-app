@@ -42,10 +42,12 @@ setInterval(() => {
     `<span id="am-pm">${ampm}</span>`;
   dateEl.innerHTML =
     days[day] +
-    "," +
-    " " +
-    new Intl.DateTimeFormat("ar-TN-u-ca-islamic", {
+    "," + " " +
+    (new Intl.DateTimeFormat("ar-TN-u-ca-islamic", {
       day: "numeric",
+    }).format(Date.now())-1)
+    + ' ' + 
+     new Intl.DateTimeFormat("ar-TN-u-ca-islamic", {
       month: "long",
     }).format(Date.now());
 }, 1000);
