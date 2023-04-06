@@ -91,6 +91,85 @@ body {
   justify-content: space-between;
 }
 
+/* for message */
+.message {
+    background-color: rgba(24, 24, 27, 0.8);
+    position: fixed;
+    bottom: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;    
+    border-radius: 20px;
+    border: #eee solid 1px;
+    height: 300px;
+    padding: 25px;
+    display: none; /* for hidden div at message */
+}
+.message .alert-message {
+    color: red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 10px 80px;
+    font-size: 40px;
+}
+.message .details-alert{
+    color: #eee;
+    font-size: 30px;
+    text-align: center;
+}
+/* end message */
+
+/* start prayer-time */
+.prayer-time{
+    background: rgba(24, 24, 27, 0.8);
+    position: fixed;
+    bottom: 300px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+}
+.prayer-time .prayer-now{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid green;
+    border-radius: 10px;
+    padding: 20px 50px;
+    margin: 0 10px;
+    color: white;
+    flex-direction: column;
+    font-size: 20px;
+}
+.prayer-time .prayer-now .to-prayer{
+    color: green;
+    font-size: 35px;
+}
+
+.prayer-time .all-prayer{
+    display: flex;
+}
+.prayer-time .all-prayer .prayer-other{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 10px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 50px 30px;
+    background: rgba(0, 0, 0, 0.2);
+    color: white;
+    font-size: 20px;
+}
+/* end prayer-time */
+
 .future-forecast {
   background: rgba(24, 24, 27, 0.8);
   padding: 25px;

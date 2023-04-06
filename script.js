@@ -76,6 +76,44 @@ function getWeatherData(latitude, longitude, city_name) {
       arrCityName.push(city_name);
     });
 }
+prayer_time()
+// for test
+function prayer_time(){
+  fetch('http://api.aladhan.com/v1/timingsByCity?city=Makkah&country=Saudi Arabia&method=4')
+  .then(response => response.json())
+  .then(prayers => {
+      document.getElementById('all-prayer').innerHTML = `
+      <div class="prayer-other">
+        <div>الفجر</div>
+        <div>${prayers.data.timings.Fajr} ص</div>
+      </div>
+      <div class="prayer-other">
+        <div>الشروق</div>
+        <div>${prayers.data.timings.Sunrise} ص</div>
+      </div>
+      <div class="prayer-other">
+        <div>الظهر</div>
+        <div>${prayers.data.timings.Dhuhr} م</div>
+      </div>
+      <div class="prayer-other">
+        <div>العصر</div>
+        <div>${prayers.data.timings.Asr} م</div>
+      </div>
+      <div class="prayer-other">
+        <div>المغرب</div>
+        <div>${prayers.data.timings.Maghrib} م</div>
+      </div>
+      <div class="prayer-other">
+        <div>العشاء</div>
+        <div>${prayers.data.timings.Isha} م</div>
+      </div>
+      `;
+        
+        console.log(prayers.data.timings)
+
+  });
+}
+
 
 n = 0;
 setInterval(() => {
