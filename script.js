@@ -85,33 +85,43 @@ function prayer_time(){
       document.getElementById('all-prayer').innerHTML = `
       <div class="prayer-other">
         <div>الفجر</div>
-        <div>${prayers.data.timings.Fajr} ص</div>
+        <div>${tConvert(prayers.data.timings.Fajr)} ص</div>
       </div>
       <div class="prayer-other">
         <div>الشروق</div>
-        <div>${prayers.data.timings.Sunrise} ص</div>
+        <div>${tConvert(prayers.data.timings.Sunrise)} ص</div>
       </div>
       <div class="prayer-other">
         <div>الظهر</div>
-        <div>${prayers.data.timings.Dhuhr} م</div>
+        <div>${tConvert(prayers.data.timings.Dhuhr)} م</div>
       </div>
       <div class="prayer-other">
         <div>العصر</div>
-        <div>${prayers.data.timings.Asr} م</div>
+        <div>${tConvert(prayers.data.timings.Asr)} م</div>
       </div>
       <div class="prayer-other">
         <div>المغرب</div>
-        <div>${prayers.data.timings.Maghrib} م</div>
+        <div>${tConvert(prayers.data.timings.Maghrib)} م</div>
       </div>
       <div class="prayer-other">
         <div>العشاء</div>
-        <div>${prayers.data.timings.Isha} م</div>
+        <div>${tConvert(prayers.data.timings.Isha)} م</div>
       </div>
       `;
-        
-        console.log(prayers.data.timings)
-
   });
+}
+
+// convert time from 24 to 12
+function tConvert (time) {
+  // Check correct time format and split into components
+  time = time.toString ().match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+
+  if (time.length > 1) { // If time format correct
+    time = time.slice (1);  // Remove full string match value
+    time[5] = +time[0] < 12 ? 'AM' : 'PM'; // Set AM/PM
+    time[0] = +time[0] % 12 || 12; // Adjust hours
+  }
+  return time.join (''); // return adjusted time or original string
 }
 
 
