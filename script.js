@@ -77,39 +77,69 @@ function getWeatherData(latitude, longitude, city_name) {
     });
 }
 prayer_time()
-// for test
+
 function prayer_time(){
   fetch('http://api.aladhan.com/v1/timingsByCity?city=Makkah&country=Saudi Arabia&method=4')
   .then(response => response.json())
-  .then(prayers => {
-      document.getElementById('all-prayer').innerHTML = `
-      <div class="prayer-other">
-        <div>الفجر</div>
-        <div>${tConvert(prayers.data.timings.Fajr)} ص</div>
-      </div>
-      <div class="prayer-other">
-        <div>الشروق</div>
-        <div>${tConvert(prayers.data.timings.Sunrise)} ص</div>
-      </div>
-      <div class="prayer-other">
-        <div>الظهر</div>
-        <div>${tConvert(prayers.data.timings.Dhuhr)} م</div>
-      </div>
-      <div class="prayer-other">
-        <div>العصر</div>
-        <div>${tConvert(prayers.data.timings.Asr)} م</div>
-      </div>
-      <div class="prayer-other">
-        <div>المغرب</div>
-        <div>${tConvert(prayers.data.timings.Maghrib)} م</div>
-      </div>
-      <div class="prayer-other">
-        <div>العشاء</div>
-        <div>${tConvert(prayers.data.timings.Isha)} م</div>
-      </div>
-      `;
+  .then((prayers) => {
+    setInterval(() => {
+      const time = new Date();
+      hours = time.getHours() > 9 ? time.getHours() : '0' +time.getHours();
+      minutes = time.getMinutes() > 9 ? time.getMinutes() : '0'+time.getMinutes();
+      second = time.getSeconds() > 9 ? time.getSeconds() : '0'+time.getSeconds();
+      timeNow = hours + ':' + minutes + ':'+ second; // HH:MM:SS
+      if(prayers.data.timings.Fajr > timeNow){
+        document.getElementById('prayer-now').innerHTML = `
+        <div class="prayer-next">الصلاة التالية</div>
+        <div class="prayer-name">الفجر</div>
+        <div class="to-prayer">${calculateTimeLeft(timeNow, prayers.data.timings.Fajr + ':00')}</div>
+        <div class="time-prayer">${tConvert(prayers.data.timings.Fajr)}</div>
+        `;
+      }else if(prayers.data.timings.Sunrise > timeNow){
+        document.getElementById('prayer-now').innerHTML = `
+        <div class="prayer-next">الصلاة التالية</div>
+        <div class="prayer-name">الشروق</div>
+        <div class="to-prayer">${calculateTimeLeft(timeNow, prayers.data.timings.Sunrise + ':00')}</div>
+        <div class="time-prayer">${tConvert(prayers.data.timings.Sunrise)}</div>
+        `;
+      }else if(prayers.data.timings.Dhuhr > timeNow){
+        document.getElementById('prayer-now').innerHTML = `
+        <div class="prayer-next">الصلاة التالية</div>
+        <div class="prayer-name">الظهر</div>
+        <div class="to-prayer">${calculateTimeLeft(timeNow, prayers.data.timings.Dhuhr + ':00')}</div>
+        <div class="time-prayer">${tConvert(prayers.data.timings.Dhuhr)}</div>
+        `;
+      }else if(prayers.data.timings.Asr > timeNow){
+  
+        document.getElementById('prayer-now').innerHTML = `
+        <div class="prayer-next">الصلاة التالية</div>
+        <div class="prayer-name">العصر</div>
+        <div class="to-prayer">${calculateTimeLeft(timeNow, prayers.data.timings.Asr + ':00')}</div>
+        <div class="time-prayer">${tConvert(prayers.data.timings.Asr)}</div>
+        `;
+        console.log(prayers.data.timings.Asr)
+      }else if(prayers.data.timings.Maghrib > timeNow){
+        document.getElementById('prayer-now').innerHTML = `
+        <div class="prayer-next">الصلاة التالية</div>
+        <div class="prayer-name">المغرب</div>
+        <div class="to-prayer">${calculateTimeLeft(timeNow, prayers.data.timings.Maghrib + ':00')}</div>
+        <div class="time-prayer">${tConvert(prayers.data.timings.Maghrib)}</div>
+        `;
+      }else if(prayers.data.timings.Isha > timeNow){
+        document.getElementById('prayer-now').innerHTML = `
+        <div class="prayer-next">الصلاة التالية</div>
+        <div class="prayer-name">العشاء</div>
+        <div class="to-prayer">${calculateTimeLeft(timeNow, prayers.data.timings.Isha + ':00')}</div>
+        <div class="time-prayer">${tConvert(prayers.data.timings.Isha)}</div>
+        `;
+      }
+    }, 1000);
+    
   });
+
 }
+
+
 
 // convert time from 24 to 12
 function tConvert (time) {
@@ -118,7 +148,7 @@ function tConvert (time) {
 
   if (time.length > 1) { // If time format correct
     time = time.slice (1);  // Remove full string match value
-    time[5] = +time[0] < 12 ? 'AM' : 'PM'; // Set AM/PM
+    time[5] = +time[0] < 12 ? ' ص' : ' م'; // Set AM/PM
     time[0] = +time[0] % 12 || 12; // Adjust hours
   }
   return time.join (''); // return adjusted time or original string
@@ -233,3 +263,41 @@ function convertDay(day) {
     return "الخميس";
   }
 }
+
+
+
+
+function calculateTimeLeft(start, end) {
+  var startTime = new Date();
+  var endTime = new Date();
+  var diff;
+
+  // تحديد وقت البدء
+  var [startHour, startMinute, startSecond] = start.split(":");
+  startTime.setHours(startHour);
+  startTime.setMinutes(startMinute);
+  startTime.setSeconds(startSecond);
+
+  // تحديد وقت النهاية
+  var [endHour, endMinute, endSecond] = end.split(":");
+  endTime.setHours(endHour);
+  endTime.setMinutes(endMinute);
+  endTime.setSeconds(endSecond);
+
+  // حساب الفرق بالثواني
+  diff = (endTime - startTime) / 1000;
+
+  // تحويل الفرق إلى ساعات ودقائق وثواني
+  var hours = Math.floor(diff / 3600);
+  var minutes = Math.floor((diff % 3600) / 60);
+  var seconds = Math.floor(diff % 60);
+
+  // إضافة الصفر الأمامي للرقم إذا كان أقل من 10
+  hours = (hours < 10) ? "0" + hours : hours;
+  minutes = (minutes < 10) ? "0" + minutes : minutes;
+  seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+  return hours + ":" + minutes + ":" + seconds;
+}
+
+
