@@ -95,6 +95,8 @@ function prayer_time(){
         <div class="to-prayer">${calculateTimeLeft(timeNow, prayers.data.timings.Fajr + ':00')}</div>
         <div class="time-prayer">${tConvert(prayers.data.timings.Fajr)}</div>
         `;
+        document.getElementById('prayer-now').style.backgroundImage = "url(images/fajr.png)";
+
       }else if(prayers.data.timings.Sunrise > timeNow){
         document.getElementById('prayer-now').innerHTML = `
         <div class="prayer-next">الصلاة التالية</div>
@@ -102,6 +104,7 @@ function prayer_time(){
         <div class="to-prayer">${calculateTimeLeft(timeNow, prayers.data.timings.Sunrise + ':00')}</div>
         <div class="time-prayer">${tConvert(prayers.data.timings.Sunrise)}</div>
         `;
+        document.getElementById('prayer-now').style.backgroundImage = "url(images/fajr.png)";
       }else if(prayers.data.timings.Dhuhr > timeNow){
         document.getElementById('prayer-now').innerHTML = `
         <div class="prayer-next">الصلاة التالية</div>
@@ -109,6 +112,8 @@ function prayer_time(){
         <div class="to-prayer">${calculateTimeLeft(timeNow, prayers.data.timings.Dhuhr + ':00')}</div>
         <div class="time-prayer">${tConvert(prayers.data.timings.Dhuhr)}</div>
         `;
+        document.getElementById('prayer-now').style.backgroundImage = "url(images/dhuhr.png)";
+
       }else if(prayers.data.timings.Asr > timeNow){
   
         document.getElementById('prayer-now').innerHTML = `
@@ -117,7 +122,9 @@ function prayer_time(){
         <div class="to-prayer">${calculateTimeLeft(timeNow, prayers.data.timings.Asr + ':00')}</div>
         <div class="time-prayer">${tConvert(prayers.data.timings.Asr)}</div>
         `;
-        console.log(prayers.data.timings.Asr)
+        document.getElementById('prayer-now').style.backgroundImage = "url(images/asr.png)";
+
+        document.getElementById('prayer-now').style.backgroundImage = "url(images/isha.png)";
       }else if(prayers.data.timings.Maghrib > timeNow){
         document.getElementById('prayer-now').innerHTML = `
         <div class="prayer-next">الصلاة التالية</div>
@@ -125,6 +132,8 @@ function prayer_time(){
         <div class="to-prayer">${calculateTimeLeft(timeNow, prayers.data.timings.Maghrib + ':00')}</div>
         <div class="time-prayer">${tConvert(prayers.data.timings.Maghrib)}</div>
         `;
+        document.getElementById('prayer-now').style.backgroundImage = "url(images/maghrib.png)";
+
       }else if(prayers.data.timings.Isha > timeNow){
         document.getElementById('prayer-now').innerHTML = `
         <div class="prayer-next">الصلاة التالية</div>
@@ -132,6 +141,7 @@ function prayer_time(){
         <div class="to-prayer">${calculateTimeLeft(timeNow, prayers.data.timings.Isha + ':00')}</div>
         <div class="time-prayer">${tConvert(prayers.data.timings.Isha)}</div>
         `;
+        document.getElementById('prayer-now').style.backgroundImage = "url(images/isha.png)";
       }
     }, 1000);
     
@@ -190,7 +200,7 @@ function showWeatherData(data, city_name) {
   </div>
   <div class="weather-item">
         <div>سرعة الرياح</div>
-        <div>${wind_speed}km/h</div>
+        <div>${wind_speed}m/s</div>
   </div>
   <div class="weather-item">
         <div>شروق الشمس</div>
@@ -239,12 +249,6 @@ function showWeatherData(data, city_name) {
     }
   });
 }
-console.log(
-  new Intl.DateTimeFormat("ar-TN-u-ca-islamic", {
-    day: "numeric",
-    month: "long",
-  }).format(Date.now())
-);
 
 function convertDay(day) {
   if (day == "Fri") {
