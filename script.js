@@ -204,11 +204,11 @@ function showWeatherData(data, city_name) {
   </div>
   <div class="weather-item">
         <div>شروق الشمس</div>
-        <div>${window.moment(sunrise * 1000).format("HH:mm صباحاً")}</div>
+        <div>${tConvert(window.moment(sunrise * 1000).format("HH:mm"))}</div>
   </div>
   <div class="weather-item">
         <div>غروب الشمس</div>
-        <div>${window.moment(sunset * 1000).format("HH:mm مساءاً")}</div>
+        <div>${tConvert(window.moment(sunset * 1000).format("HH:mm"))}</div>
 
   </div>
   
