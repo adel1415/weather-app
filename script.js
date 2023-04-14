@@ -58,7 +58,7 @@ getWeatherData(21.5169, 39.2192, "جدة");
 
 setTimeout(() => {
   document.location.reload();
-}, 3600000);
+}, 1800000);
 
 function getWeatherData(latitude, longitude, city_name) {
   arr = [];
@@ -82,6 +82,7 @@ function prayer_time(){
   fetch('http://api.aladhan.com/v1/timingsByCity?city=Makkah&country=Saudi Arabia&method=4')
   .then(response => response.json())
   .then((prayers) => {
+    console.log(prayers);
     setInterval(() => {
       const time = new Date();
       hours = time.getHours() > 9 ? time.getHours() : '0' +time.getHours();
@@ -142,6 +143,15 @@ function prayer_time(){
         <div class="time-prayer">${tConvert(prayers.data.timings.Isha)}</div>
         `;
         document.getElementById('prayer-now').style.backgroundImage = "url(images/isha.png)";
+      } else if(prayers.data.timings.Isha < timeNow){
+        document.getElementById('prayer-now').innerHTML = `
+        <div class="prayer-next">الصلاة التالية</div>
+        <div class="prayer-name">الفجر</div>
+        <div class="time-prayer" style="color: green;
+        font-size: 35px;">${tConvert(prayers.data.timings.Fajr)}</div>
+        `;
+        document.getElementById('prayer-now').style.backgroundImage = "url(images/fajr.png)";
+
       }
     }, 1000);
     
