@@ -42,12 +42,14 @@ setInterval(() => {
     `<span id="am-pm">${ampm}</span>`;
   dateEl.innerHTML =
     days[day] +
-    "," + " " +
+    "," +
+    " " +
     (new Intl.DateTimeFormat("ar-TN-u-ca-islamic", {
       day: "numeric",
-    }).format(Date.now())-1)
-    + ' ' + 
-     new Intl.DateTimeFormat("ar-TN-u-ca-islamic", {
+    }).format(Date.now()) -
+      1) +
+    " " +
+    new Intl.DateTimeFormat("ar-TN-u-ca-islamic", {
       month: "long",
     }).format(Date.now());
 }, 1000);
@@ -62,7 +64,7 @@ setTimeout(() => {
 
 function getWeatherData(latitude, longitude, city_name) {
   arr = [];
-  arrCityName = []
+  arrCityName = [];
   fetch(
     `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&units=metric&appid=${API_KEY}`
   )
@@ -70,110 +72,136 @@ function getWeatherData(latitude, longitude, city_name) {
     .then((data) => {
       if (arr.length >= 3) {
         arr = [];
-        arrCityName = []
+        arrCityName = [];
       }
       arr.push(data);
       arrCityName.push(city_name);
     });
 }
-prayer_time()
+prayer_time();
 
-function prayer_time(){
-  fetch('http://api.aladhan.com/v1/timingsByCity?city=Makkah&country=Saudi Arabia&method=4')
-  .then(response => response.json())
-  .then((prayers) => {
-    console.log(prayers);
-    setInterval(() => {
-      const time = new Date();
-      hours = time.getHours() > 9 ? time.getHours() : '0' +time.getHours();
-      minutes = time.getMinutes() > 9 ? time.getMinutes() : '0'+time.getMinutes();
-      second = time.getSeconds() > 9 ? time.getSeconds() : '0'+time.getSeconds();
-      timeNow = hours + ':' + minutes + ':'+ second; // HH:MM:SS
-      if(prayers.data.timings.Fajr > timeNow){
-        document.getElementById('prayer-now').innerHTML = `
+function prayer_time() {
+  fetch(
+    "http://api.aladhan.com/v1/timingsByCity?city=Makkah&country=Saudi Arabia&method=4"
+  )
+    .then((response) => response.json())
+    .then((prayers) => {
+      setInterval(() => {
+        const time = new Date();
+        hours = time.getHours() > 9 ? time.getHours() : "0" + time.getHours();
+        minutes =
+          time.getMinutes() > 9 ? time.getMinutes() : "0" + time.getMinutes();
+        second =
+          time.getSeconds() > 9 ? time.getSeconds() : "0" + time.getSeconds();
+        timeNow = hours + ":" + minutes + ":" + second; // HH:MM:SS
+        if (prayers.data.timings.Fajr + ":00" == timeNow || prayers.data.timings.Dhuhr + ":00" == timeNow || prayers.data.timings.Asr + ":00" == timeNow || prayers.data.timings.Maghrib + ":00" == timeNow || prayers.data.timings.Isha + ":00" == timeNow) {
+          var audio = new Audio("aa.mp3");
+          audio.play();
+        }
+        if (prayers.data.timings.Fajr > timeNow) {
+          document.getElementById("prayer-now").innerHTML = `
         <div class="prayer-next">الصلاة التالية</div>
         <div class="prayer-name">الفجر</div>
-        <div class="to-prayer">${calculateTimeLeft(timeNow, prayers.data.timings.Fajr + ':00')}</div>
+        <div class="to-prayer">${calculateTimeLeft(
+          timeNow,
+          prayers.data.timings.Fajr + ":00"
+        )}</div>
         <div class="time-prayer">${tConvert(prayers.data.timings.Fajr)}</div>
         `;
-        document.getElementById('prayer-now').style.backgroundImage = "url(images/fajr.png)";
-
-      }else if(prayers.data.timings.Sunrise > timeNow){
-        document.getElementById('prayer-now').innerHTML = `
+          document.getElementById("prayer-now").style.backgroundImage =
+            "url(images/fajr.png)";
+        } else if (prayers.data.timings.Sunrise > timeNow) {
+          document.getElementById("prayer-now").innerHTML = `
         <div class="prayer-next">الصلاة التالية</div>
         <div class="prayer-name">الشروق</div>
-        <div class="to-prayer">${calculateTimeLeft(timeNow, prayers.data.timings.Sunrise + ':00')}</div>
+        <div class="to-prayer">${calculateTimeLeft(
+          timeNow,
+          prayers.data.timings.Sunrise + ":00"
+        )}</div>
         <div class="time-prayer">${tConvert(prayers.data.timings.Sunrise)}</div>
         `;
-        document.getElementById('prayer-now').style.backgroundImage = "url(images/fajr.png)";
-      }else if(prayers.data.timings.Dhuhr > timeNow){
-        document.getElementById('prayer-now').innerHTML = `
+          document.getElementById("prayer-now").style.backgroundImage =
+            "url(images/fajr.png)";
+        } else if (prayers.data.timings.Dhuhr > timeNow) {
+          document.getElementById("prayer-now").innerHTML = `
         <div class="prayer-next">الصلاة التالية</div>
         <div class="prayer-name">الظهر</div>
-        <div class="to-prayer">${calculateTimeLeft(timeNow, prayers.data.timings.Dhuhr + ':00')}</div>
+        <div class="to-prayer">${calculateTimeLeft(
+          timeNow,
+          prayers.data.timings.Dhuhr + ":00"
+        )}</div>
         <div class="time-prayer">${tConvert(prayers.data.timings.Dhuhr)}</div>
         `;
-        document.getElementById('prayer-now').style.backgroundImage = "url(images/dhuhr.png)";
-
-      }else if(prayers.data.timings.Asr > timeNow){
-  
-        document.getElementById('prayer-now').innerHTML = `
+          document.getElementById("prayer-now").style.backgroundImage =
+            "url(images/dhuhr.png)";
+        } else if (prayers.data.timings.Asr > timeNow) {
+          document.getElementById("prayer-now").innerHTML = `
         <div class="prayer-next">الصلاة التالية</div>
         <div class="prayer-name">العصر</div>
-        <div class="to-prayer">${calculateTimeLeft(timeNow, prayers.data.timings.Asr + ':00')}</div>
+        <div class="to-prayer">${calculateTimeLeft(
+          timeNow,
+          prayers.data.timings.Asr + ":00"
+        )}</div>
         <div class="time-prayer">${tConvert(prayers.data.timings.Asr)}</div>
         `;
-        document.getElementById('prayer-now').style.backgroundImage = "url(images/asr.png)";
+          document.getElementById("prayer-now").style.backgroundImage =
+            "url(images/asr.png)";
 
-        document.getElementById('prayer-now').style.backgroundImage = "url(images/isha.png)";
-      }else if(prayers.data.timings.Maghrib > timeNow){
-        document.getElementById('prayer-now').innerHTML = `
+          document.getElementById("prayer-now").style.backgroundImage =
+            "url(images/isha.png)";
+        } else if (prayers.data.timings.Maghrib > timeNow) {
+          document.getElementById("prayer-now").innerHTML = `
         <div class="prayer-next">الصلاة التالية</div>
         <div class="prayer-name">المغرب</div>
-        <div class="to-prayer">${calculateTimeLeft(timeNow, prayers.data.timings.Maghrib + ':00')}</div>
+        <div class="to-prayer">${calculateTimeLeft(
+          timeNow,
+          prayers.data.timings.Maghrib + ":00"
+        )}</div>
         <div class="time-prayer">${tConvert(prayers.data.timings.Maghrib)}</div>
         `;
-        document.getElementById('prayer-now').style.backgroundImage = "url(images/maghrib.png)";
-
-      }else if(prayers.data.timings.Isha > timeNow){
-        document.getElementById('prayer-now').innerHTML = `
+          document.getElementById("prayer-now").style.backgroundImage =
+            "url(images/maghrib.png)";
+        } else if (prayers.data.timings.Isha > timeNow) {
+          document.getElementById("prayer-now").innerHTML = `
         <div class="prayer-next">الصلاة التالية</div>
         <div class="prayer-name">العشاء</div>
-        <div class="to-prayer">${calculateTimeLeft(timeNow, prayers.data.timings.Isha + ':00')}</div>
+        <div class="to-prayer">${calculateTimeLeft(
+          timeNow,
+          prayers.data.timings.Isha + ":00"
+        )}</div>
         <div class="time-prayer">${tConvert(prayers.data.timings.Isha)}</div>
         `;
-        document.getElementById('prayer-now').style.backgroundImage = "url(images/isha.png)";
-      } else if(prayers.data.timings.Isha < timeNow){
-        document.getElementById('prayer-now').innerHTML = `
+          document.getElementById("prayer-now").style.backgroundImage =
+            "url(images/isha.png)";
+        } else if (prayers.data.timings.Isha < timeNow) {
+          document.getElementById("prayer-now").innerHTML = `
         <div class="prayer-next">الصلاة التالية</div>
         <div class="prayer-name">الفجر</div>
         <div class="time-prayer" style="color: green;
         font-size: 35px;">${tConvert(prayers.data.timings.Fajr)}</div>
         `;
-        document.getElementById('prayer-now').style.backgroundImage = "url(images/fajr.png)";
-
-      }
-    }, 1000);
-    
-  });
-
+          document.getElementById("prayer-now").style.backgroundImage =
+            "url(images/fajr.png)";
+        }
+      }, 1000);
+    });
 }
-
-
 
 // convert time from 24 to 12
-function tConvert (time) {
+function tConvert(time) {
   // Check correct time format and split into components
-  time = time.toString ().match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+  time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [
+    time,
+  ];
 
-  if (time.length > 1) { // If time format correct
-    time = time.slice (1);  // Remove full string match value
-    time[5] = +time[0] < 12 ? ' ص' : ' م'; // Set AM/PM
+  if (time.length > 1) {
+    // If time format correct
+    time = time.slice(1); // Remove full string match value
+    time[5] = +time[0] < 12 ? " ص" : " م"; // Set AM/PM
     time[0] = +time[0] % 12 || 12; // Adjust hours
   }
-  return time.join (''); // return adjusted time or original string
+  return time.join(""); // return adjusted time or original string
 }
-
 
 n = 0;
 setInterval(() => {
@@ -190,7 +218,7 @@ setInterval(() => {
 }, 10000);
 
 function showWeatherData(data, city_name) {
-  let {temp, humidity, pressure, sunrise, sunset, wind_speed } = data.current;
+  let { temp, humidity, pressure, sunrise, sunset, wind_speed } = data.current;
 
   timezone.innerHTML = city_name;
   countryEl.innerHTML = data.lat + "N " + data.lon + "E";
@@ -278,9 +306,6 @@ function convertDay(day) {
   }
 }
 
-
-
-
 function calculateTimeLeft(start, end) {
   var startTime = new Date();
   var endTime = new Date();
@@ -307,11 +332,9 @@ function calculateTimeLeft(start, end) {
   var seconds = Math.floor(diff % 60);
 
   // إضافة الصفر الأمامي للرقم إذا كان أقل من 10
-  hours = (hours < 10) ? "0" + hours : hours;
-  minutes = (minutes < 10) ? "0" + minutes : minutes;
-  seconds = (seconds < 10) ? "0" + seconds : seconds;
+  hours = hours < 10 ? "0" + hours : hours;
+  minutes = minutes < 10 ? "0" + minutes : minutes;
+  seconds = seconds < 10 ? "0" + seconds : seconds;
 
   return hours + ":" + minutes + ":" + seconds;
 }
-
-
